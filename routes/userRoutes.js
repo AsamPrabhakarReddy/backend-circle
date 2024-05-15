@@ -100,7 +100,7 @@ router.post("/register", async (req, res) => {
   });
   await token.save();
   console.log(token);
-  const link = `http://localhost:8080/auth/confirm/${token.token}`;
+  const link = `https://syndeo-backend.onrender.com/auth/confirm/${token.token}`;
   await sendMail(
     email,
     "Welcome to Calendly!!!",
@@ -373,7 +373,7 @@ router.post("/forgetPassword", async (req, res) => {
               <p>If it wasn't done by you, please contact us immediately.</p>
             </div>
             <div class="button">
-              <a href="http://localhost:5173/resetPassword/${user._id}/${token}"
+              <a href="https://syndeo-frontend.vercel.app/resetPassword/${user._id}/${token}"
                 >Reset the password</a
               >
             </div>
