@@ -740,6 +740,12 @@ router.post("/booking-availability", authMiddleware, async (req, res) => {
   try {
     const fromTime = req.body.startTime;
     const endTime = req.body.endTime;
+    if (fromTime === endTime) {
+      res.status(200).send({
+        status: false,
+        message: "Invalid Timings",
+      });
+    }
     const doctorId = req.body.doctorId;
     const userId = req.body.userId;
     const userAppointments = await appointmentModel.find({
