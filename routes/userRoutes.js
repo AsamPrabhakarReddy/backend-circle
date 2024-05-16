@@ -579,6 +579,12 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     const candidate = await UserModel.findOne({ _id: req.body.userId });
     const doctorFirstName = req.body.doctorFirstName;
     const doctorLastName = req.body.doctorLastName;
+    if (req.body.startTime === req.body.endTime) {
+      res.status(200).send({
+        status: false,
+        message: "Invalid Timings",
+      });
+    }
     const startTime = req.body.startTime.toString();
     const endTime = req.body.endTime.toString();
     const bookedName = req.body.bookedName;
