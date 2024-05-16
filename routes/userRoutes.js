@@ -749,7 +749,7 @@ router.post("/booking-availability", authMiddleware, async (req, res) => {
     if (fromTime === endTime) {
       res.status(200).send({
         status: false,
-        message: "Invalid Timings",
+        message: "Start and End Timings shouldn't be same",
       });
     }
     const doctorId = req.body.doctorId;
