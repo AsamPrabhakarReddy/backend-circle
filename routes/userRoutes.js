@@ -103,7 +103,7 @@ router.post("/register", async (req, res) => {
   const link = `https://syndeo-backend.onrender.com/auth/confirm/${token.token}`;
   await sendMail(
     email,
-    "Welcome to Calendly!!!",
+    "Welcome to Syndéo!!!",
     `Hi, ${lastName} ${firstName}. Thank you for registering with us`,
     `<!DOCTYPE html>
     <html>
@@ -279,7 +279,7 @@ router.post("/forgetPassword", async (req, res) => {
     var mailOptions = {
       from: "kalavaguntapurnesh@gmail.com",
       to: email,
-      subject: "Reset Password",
+      subject: "Reset Your Password",
       html: `<!DOCTYPE html>
       <html>
         <head>
@@ -605,7 +605,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     var mailOptions = {
       from: "kalavaguntapurnesh@gmail.com",
       to: doctorEmail,
-      subject: "Appointment Booking Successful",
+      subject: "Appointment Booking Successful!!!",
       html: `<!DOCTYPE html>
       <html>
         <head>
