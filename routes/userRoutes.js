@@ -754,7 +754,7 @@ router.post("/booking-availability", authMiddleware, async (req, res) => {
     });
     console.log(appointments);
     console.log(userAppointments);
-    if (appointments.length > 0 || userAppointments.length > 0) {
+    if (appointments.length > 0 && userAppointments.length > 0) {
       res.status(200).send({
         status: false,
         message: "Appointment Not Available",
