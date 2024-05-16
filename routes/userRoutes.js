@@ -582,7 +582,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     if (req.body.startTime === req.body.endTime) {
       res.status(200).send({
         status: false,
-        message: "Invalid Timings",
+        message: "Start and End Timings shouldn't be same",
       });
     }
     const startTime = req.body.startTime.toString();
