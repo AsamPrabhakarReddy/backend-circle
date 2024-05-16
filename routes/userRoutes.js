@@ -690,7 +690,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
               <h1>Your appointment booking was successful</h1>
             </div>
             <div class="content">
-              <p id="para">Greetings, ${doctorFirstName}!</p>
+              <p id="para">Greetings, ${doctorFirstName} ${doctorLastName}!</p>
               <p>
                 Thanks for your interest in using Syndeo! Your appointment booking with ${bookedName} was succesful. 
               </p>
@@ -741,13 +741,20 @@ router.post("/booking-availability", authMiddleware, async (req, res) => {
     const fromTime = req.body.startTime;
     const endTime = req.body.endTime;
     const doctorId = req.body.doctorId;
+    const userId = req.body.userId;
+    const userAppointments = await appointmentModel.find({
+      userId,
+      startTime: { $lte: fromTime },
+      endTime: { $gte: endTime },
+    });
     const appointments = await appointmentModel.find({
       doctorId,
       startTime: { $lte: fromTime },
       endTime: { $gte: endTime },
     });
     console.log(appointments);
-    if (appointments.length > 0) {
+    console.log(userAppointments);
+    if (appointments.length > 0 || userAppointments.length > 0) {
       res.status(200).send({
         status: false,
         message: "Appointment Not Available",
