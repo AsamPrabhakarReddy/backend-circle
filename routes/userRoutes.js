@@ -690,9 +690,9 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
               <h1>Your appointment booking was successful</h1>
             </div>
             <div class="content">
-              <p id="para">Greetings, ${bookedName}!</p>
+              <p id="para">Greetings, ${doctorFirstName}!</p>
               <p>
-                Thanks for your interest in using Syndeo! Your appointment booking with ${doctorFirstName} ${doctorLastName} was succesful. 
+                Thanks for your interest in using Syndeo! Your appointment booking with ${bookedName} was succesful. 
               </p>
               <p>
                 Your Start Time : ${startTime}
