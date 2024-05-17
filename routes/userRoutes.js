@@ -103,7 +103,7 @@ router.post("/register", async (req, res) => {
   const link = `https://syndeo-backend.onrender.com/auth/confirm/${token.token}`;
   await sendMail(
     email,
-    "Welcome to Syndéo!!!",
+    "Welcome to Syndèo!!!",
     `Hi, ${lastName} ${firstName}. Thank you for registering with us`,
     `<!DOCTYPE html>
     <html>
@@ -191,7 +191,7 @@ router.post("/register", async (req, res) => {
           <div class="content">
             <p id="para">Greetings, ${firstName} ${lastName}!</p>
             <p>
-              Thanks for your interest in joining Syndeo! To complete your
+              Thanks for your interest in joining Syndèo! To complete your
               registration, we need you to verify your email address.
             </p>
             <p>
@@ -203,10 +203,10 @@ router.post("/register", async (req, res) => {
               <a href="${link}">Verify Email</a>
             </div>
           </div>
-          <p>Thanks for helping to keep Syndeo secure!</p>
+          <p>Thanks for helping to keep Syndèo secure!</p>
           <div class="footer">
             <p>Best regards,</p>
-            <p>Team Syndeo</p>
+            <p>Team Syndèo</p>
           </div>
         </div>
       </body>
@@ -378,11 +378,11 @@ router.post("/forgetPassword", async (req, res) => {
               >
             </div>
             <div class="bottom">
-              <p>Thanks for helping to keep Syndeo secure!</p>
+              <p>Thanks for helping to keep Syndèo secure!</p>
             </div>
             <div class="footer">
               <p class="footerOne">Best regards,</p>
-              <p class="footerTwo">Team Syndeo</p>
+              <p class="footerTwo">Team Syndèo</p>
             </div>
           </div>
         </body>
@@ -611,7 +611,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     var mailOptions = {
       from: "kalavaguntapurnesh@gmail.com",
       to: doctorEmail,
-      subject: "Appointment Booking Successful!!!",
+      subject: "Your Appointment with ${bookedName} is confirmed.",
       html: `<!DOCTYPE html>
       <html>
         <head>
@@ -665,7 +665,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
               margin-bottom: 20px;
             }
       
-            .content .button a {
+            .content .button h2 {
               border-radius: 40px;
               padding-top: 16px;
               padding-bottom: 16px;
@@ -698,7 +698,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
             <div class="content">
               <p id="para">Greetings, ${doctorFirstName} ${doctorLastName}!</p>
               <p>
-                Thanks for your interest in using Syndeo! Your appointment booking with ${bookedName} was succesful. 
+                Thanks for your interest in using Syndèo! Your appointment booking with ${bookedName} was succesful. Below are the following details: 
               </p>
               <p>
                 Your Start Time : ${startTime}
@@ -707,13 +707,13 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
                 Your End Time : ${endTime}
               </p>
               <div class="button">
-                <a>Thank You</a>
+                <h2>Thank You</h2>
               </div>
             </div>
-            <p>Thank you for helping to keep Syndeo secure!</p>
+            <p>Thank you for helping to keep Syndèo secure!</p>
             <div class="footer">
               <p>Best regards,</p>
-              <p>Team Syndeo</p>
+              <p>Team Syndèo</p>
             </div>
           </div>
         </body>
