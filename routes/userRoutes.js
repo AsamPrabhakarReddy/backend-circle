@@ -862,8 +862,8 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
 router.post("/booking-availability", authMiddleware, async (req, res) => {
   try {
     const fromTime = req.body.startTime;
-    const endTime = req.body.endTime;
-    if (fromTime === endTime) {
+    const finishTime = req.body.endTime;
+    if (fromTime === finishTime) {
       res.status(200).send({
         status: false,
         message: "Start and End Timings shouldn't be same",
@@ -874,15 +874,17 @@ router.post("/booking-availability", authMiddleware, async (req, res) => {
     const userAppointments = await appointmentModel.find({
       userId,
       startTime: { $lte: fromTime },
-      endTime: { $gte: endTime },
+      endTime: { $gte: fromTime },
+      startTime: { $lte: finishTime },
+      endTime: { $gte: finishTime },
     });
     const appointments = await appointmentModel.find({
       doctorId,
       startTime: { $lte: fromTime },
-      endTime: { $gte: endTime },
+      endTime: { $gte: fromTime },
+      startTime: { $lte: finishTime },
+      endTime: { $gte: finishTime },
     });
-    console.log(appointments);
-    console.log(userAppointments);
     if (appointments.length > 0 && userAppointments.length > 0) {
       res.status(200).send({
         status: false,
