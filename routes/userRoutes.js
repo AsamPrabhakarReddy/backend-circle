@@ -189,7 +189,7 @@ router.post("/register", async (req, res) => {
             <h1>Verify your email address to complete registration</h1>
           </div>
           <div class="content">
-            <p id="para">Greetings, ${firstName} ${lastName}!</p>
+            <p id="para">Greetings, <span style="font-weight: bold">${firstName} ${lastName}!</span></p>
             <p>
               Thanks for your interest in joining Syndèo! To complete your
               registration, we need you to verify your email address.
@@ -611,11 +611,11 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     var mailOptions = {
       from: "kalavaguntapurnesh@gmail.com",
       to: doctorEmail,
-      subject: "Your Appointment with ${bookedName} is confirmed.",
+      subject: "Your appointment booking was confirmed.",
       html: `<!DOCTYPE html>
       <html>
-        <head>
-          <style>
+      <head>
+        <style>
           body {
             font-family: Arial, sans-serif;
             height: 100%;
@@ -630,94 +630,92 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
           }
-      
-            .header {
-              text-align: center;
-              margin-bottom: 20px;
-            }
-      
-            .header h1 {
-              color: #333;
-              font-size: 22px;
-              font-weight: 600;
-              text-align: center;
-            }
-      
-            .content {
-              margin-bottom: 30px;
-            }
-      
-            .content p {
-              margin: 0 0 10px;
-              line-height: 1.5;
-            }
-      
-            .content #para p {
-              margin-top: 20px;
-            }
-      
-            .content .button {
-              text-align: center;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              margin-top: 20px;
-              margin-bottom: 20px;
-            }
-      
-            .content .button h2 {
-              border-radius: 40px;
-              padding-top: 16px;
-              padding-bottom: 16px;
-              padding-left: 100px;
-              padding-right: 100px;
-              background-color: #007ae1;
-              text-decoration: none;
-              color: white;
-              font-weight: 600;
-            }
-      
-            /* .footer {
+    
+          .header {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+    
+          .header h1 {
+            color: #333;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+          }
+    
+          .content {
+            margin-bottom: 30px;
+          }
+    
+          .content p {
+            margin: 0 0 10px;
+            line-height: 1.5;
+          }
+    
+          .content #para p {
+            margin-top: 20px;
+          }
+    
+          .content .button {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+          }
+    
+          .content .button h2 {
+            border-radius: 40px;
+            padding-top: 16px;
+            padding-bottom: 16px;
+            padding-left: 100px;
+            padding-right: 100px;
+            background-color: #007ae1;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+          }
+    
+          /* .footer {
               text-align: center;
             } */
-      
-            .footer p {
-              color: #999;
-              font-size: 14px;
-              margin: 0;
-              margin-top: 8px;
-              margin-bottom: 8px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>Your appointment booking was successful</h1>
-            </div>
-            <div class="content">
-              <p id="para">Greetings, ${doctorFirstName} ${doctorLastName}!</p>
-              <p>
-                Thanks for your interest in using Syndèo! Your appointment booking with ${bookedName} was succesful. Below are the following details: 
-              </p>
-              <p>
-                Your Start Time : ${startTime}
-              </p>
-              <p>
-                Your End Time : ${endTime}
-              </p>
-              <div class="button">
-                <h2>Thank You</h2>
-              </div>
-            </div>
-            <p>Thank you for helping to keep Syndèo secure!</p>
-            <div class="footer">
-              <p>Best regards,</p>
-              <p>Team Syndèo</p>
+    
+          .footer p {
+            color: #999;
+            font-size: 14px;
+            margin: 0;
+            margin-top: 8px;
+            margin-bottom: 8px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>Your appointment booking was successful</h1>
+          </div>
+          <div class="content">
+            <p id="para">Greetings, ${doctorFirstName} ${doctorLastName}!</p>
+            <p>
+              Thanks for your interest in using Syndèo! Your appointment booking
+              with <span style="font-weight: bold">${bookedName}</span> was
+              succesful. Below are the following details:
+            </p>
+            <p>Your Start Time : ${startTime}</p>
+            <p>Your End Time : ${endTime}</p>
+            <div class="button">
+              <h2>Thank You</h2>
             </div>
           </div>
-        </body>
-      </html>
+          <p>Thank you for helping to keep Syndèo secure!</p>
+          <div class="footer">
+            <p>Best regards,</p>
+            <p>Team Syndèo</p>
+          </div>
+        </div>
+      </body>
+    </html>
       `,
     };
 
