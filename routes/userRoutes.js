@@ -213,7 +213,7 @@ router.post("/register", async (req, res) => {
     </html>
     `
   );
-  res.send({ status: true, message: "Verify Your Email" });
+  res.send({ status: true, message: "Verify Your Email", email });
 });
 
 router.get("/confirm/:token", async (req, res) => {
