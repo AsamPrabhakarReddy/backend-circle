@@ -103,7 +103,7 @@ router.post("/register", async (req, res) => {
   const link = `https://syndeo-backend.onrender.com/auth/confirm/${token.token}`;
   await sendMail(
     email,
-    "Welcome to Syndèo!!!",
+    "Welcome to Syndèo!!! 🎉 🎉",
     `Hi, ${lastName} ${firstName}. Thank you for registering with us`,
     `<!DOCTYPE html>
     <html>
