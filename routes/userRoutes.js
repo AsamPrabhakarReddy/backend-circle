@@ -268,16 +268,17 @@ router.post("/forgetPassword", async (req, res) => {
     });
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "mail.clouddatanetworks.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: "kalavaguntapurnesh@gmail.com",
-        pass: "oamugyjnvtldzgez",
+        user: "noreply-syndeo@clouddatanetworks.com",
+        pass: "CDN@syndeo",
       },
     });
-
     // const encodedToken = encodeURIComponent(token).replace(/\./g, "%2E");
     var mailOptions = {
-      from: "kalavaguntapurnesh@gmail.com",
+      from: "noreply-syndeo@clouddatanetworks.com",
       to: email,
       subject: "Reset Your Password",
       html: `<!DOCTYPE html>
@@ -603,14 +604,16 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     });
     await interviewer.save();
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "mail.clouddatanetworks.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: "kalavaguntapurnesh@gmail.com",
-        pass: "oamugyjnvtldzgez",
+        user: "noreply-syndeo@clouddatanetworks.com",
+        pass: "CDN@syndeo",
       },
     });
     var mailOptions = {
-      from: "kalavaguntapurnesh@gmail.com",
+      from: "noreply-syndeo@clouddatanetworks.com",
       to: doctorEmail,
       subject: "Your appointment booking was confirmed.",
       html: `<!DOCTYPE html>

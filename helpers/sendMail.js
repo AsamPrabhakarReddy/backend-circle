@@ -1,11 +1,12 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  secure: false, // Use `true` for port 465, `false` for all other ports
+  host: "mail.clouddatanetworks.com",
+  port: 465,
+  secure: true,
   auth: {
-    user: "kalavaguntapurnesh@gmail.com",
-    pass: "oamugyjnvtldzgez",
+    user: "noreply-syndeo@clouddatanetworks.com",
+    pass: "CDN@syndeo",
   },
 });
 
@@ -13,7 +14,7 @@ const transporter = nodemailer.createTransport({
 async function sendMail(to, subject, text, html) {
   // send mail with defined transport object
   const info = await transporter.sendMail({
-    from: "kalavaguntapurnesh@gmail.com", // sender address
+    from: "noreply-syndeo@clouddatanetworks.com", // sender address
     to,
     subject,
     text,
