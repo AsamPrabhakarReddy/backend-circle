@@ -469,6 +469,19 @@ router.post("/existingSchedules", authMiddleware, async (req, res) => {
   }
 });
 
+router.post("/shareSchedules", async (req, res) => {
+  try {
+    const user = await appointmentModel.find({ userId: req.body.userId });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      status: false,
+      message: "Issue in fetching appointments",
+      error,
+    });
+  }
+});
+
 router.post("/userSchedules", authMiddleware, async (req, res) => {
   try {
     const mySchedules = await appointmentModel.find({
