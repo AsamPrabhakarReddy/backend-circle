@@ -470,6 +470,7 @@ router.post("/existingSchedules", authMiddleware, async (req, res) => {
 router.post("/shareSchedules", async (req, res) => {
   try {
     const user = await appointmentModel.find({ userId: req.body.userId });
+    // console.log(user);
     res.send({
       status: true,
       message: "Existing Scheduling Fetched Successfully",

@@ -5,7 +5,7 @@ import { UserModel } from "../models/userModel.js";
 
 const router = express.Router();
 
-router.get("/getAllOrganizers", async (req, res) => {
+router.get("/getAllOrganizers", authMiddleware, async (req, res) => {
   try {
     const facilitators = await UserModel.find({
       role: { $eq: "organizer" },
@@ -24,7 +24,7 @@ router.get("/getAllOrganizers", async (req, res) => {
   }
 });
 
-router.get("/getAllParticipants", async (req, res) => {
+router.get("/getAllParticipants", authMiddleware, async (req, res) => {
   try {
     const facilitators = await UserModel.find({
       role: { $eq: "participant" },
@@ -43,7 +43,7 @@ router.get("/getAllParticipants", async (req, res) => {
   }
 });
 
-router.get("/getAllFacilitators", async (req, res) => {
+router.get("/getAllFacilitators", authMiddleware, async (req, res) => {
   try {
     const facilitators = await UserModel.find({
       role: { $eq: "facilitator" },
