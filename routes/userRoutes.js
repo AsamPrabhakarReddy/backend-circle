@@ -92,14 +92,12 @@ router.post("/register", async (req, res) => {
     message: `${lastName} ${firstName} has applied for ${role} role`,
     onClickPath: `/admin/${role}`,
   });
-  console.log(notification);
   await UserModel.findByIdAndUpdate(adminUser._id, { notification });
   const token = new tokenModel({
     userId: newUser._id,
     token: crypto.randomBytes(16).toString("hex"),
   });
   await token.save();
-  console.log(token);
   const link = `https://syndeo-backend.onrender.com/auth/confirm/${token.token}`;
   await sendMail(
     email,
@@ -469,7 +467,7 @@ router.post("/existingSchedules", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/shareSchedules", async (req, res) => {
+router.get("/shareSchedules", async (req, res) => {
   try {
     const user = await appointmentModel.find({ userId: req.body.userId });
     res.send({
