@@ -57,165 +57,165 @@ router.post("/updateProfile", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/userRegister", async (req, res) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    secondaryEmail,
-    selectedCountry,
-    selectedState,
-    selectedCity,
-    password,
-    role,
-    phoneNumber,
-  } = req.body;
-  const participant = await ParticipantModel.findOne({ email });
-  if (participant) {
-    return res.json({ message: "User Already Exists" });
-  }
-  const hashpassword = await bcrypt.hash(password, 10);
-  const newParticipant = new ParticipantModel({
-    firstName,
-    lastName,
-    email,
-    secondaryEmail,
-    phoneNumber,
-    selectedCountry,
-    selectedState,
-    selectedCity,
-    password: hashpassword,
-    role,
-  });
-  await newParticipant.save();
-  const adminUser = await UserModel.findOne({ isAdmin: true });
-  const notification = adminUser.notification;
-  notification.push({
-    type: "A new user registered",
-    message: `${lastName} ${firstName} has applied for ${role} role`,
-    onClickPath: `/admin/${role}`,
-  });
-  await UserModel.findByIdAndUpdate(adminUser._id, { notification });
-  const token = new tokenModel({
-    userId: newParticipant._id,
-    token: crypto.randomBytes(16).toString("hex"),
-  });
-  await token.save();
-  const link = `https://syndeo-backend.onrender.com/auth/confirmToken/${token.token}`;
-  await sendMail(
-    email,
-    "Welcome to Syndèo!!! 🎉 🎉",
-    `Hi, ${lastName} ${firstName}. Thank you for registering with us`,
-    `<!DOCTYPE html>
-    <html>
-      <head>
-        <style>
-        body {
-          font-family: Arial, sans-serif;
-          height: 100%;
-          width: 100%;
-        }
-  
-        .container {
-          max-width: 600px;
-          margin: 0 auto;
-          padding: 20px;
-          background-color: #fff;
-          border-radius: 5px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-    
-          .header {
-            text-align: center;
-            margin-bottom: 20px;
-          }
-    
-          .header h1 {
-            color: #333;
-            font-size: 22px;
-            font-weight: 600;
-            text-align: center;
-          }
-    
-          .content {
-            margin-bottom: 30px;
-          }
-    
-          .content p {
-            margin: 0 0 10px;
-            line-height: 1.5;
-          }
-    
-          .content #para p {
-            margin-top: 20px;
-          }
-    
-          .content .button {
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-          }
-    
-          .content .button a {
-            border-radius: 40px;
-            padding-top: 16px;
-            padding-bottom: 16px;
-            padding-left: 100px;
-            padding-right: 100px;
-            background-color: #007ae1;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-          }
-    
-          /* .footer {
-            text-align: center;
-          } */
-    
-          .footer p {
-            color: #999;
-            font-size: 14px;
-            margin: 0;
-            margin-top: 8px;
-            margin-bottom: 8px;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>Verify your email address to complete registration</h1>
-          </div>
-          <div class="content">
-            <p id="para">Greetings, <span style="font-weight: bold">${firstName} ${lastName}!</span></p>
-            <p>
-              Thanks for your interest in joining Syndèo! To complete your
-              registration, we need you to verify your email address.
-            </p>
-            <p>
-              As part of our ongoing efforts to promote trust and protect your
-              security, we now require you to obtain an Identity Verification which
-              is done by verifying your email.
-            </p>
-            <div class="button">
-              <a href="${link}">Verify Email</a>
-            </div>
-          </div>
-          <p>Thanks for helping to keep Syndèo secure!</p>
-          <div class="footer">
-            <p>Best regards,</p>
-            <p>Team Syndèo</p>
-          </div>
-        </div>
-      </body>
-    </html>
-    `
-  );
-  res.send({ status: true, message: "Verify Your Email", email });
-});
+// router.post("/userRegister", async (req, res) => {
+//   const {
+//     firstName,
+//     lastName,
+//     email,
+//     secondaryEmail,
+//     selectedCountry,
+//     selectedState,
+//     selectedCity,
+//     password,
+//     role,
+//     phoneNumber,
+//   } = req.body;
+//   const participant = await ParticipantModel.findOne({ email });
+//   if (participant) {
+//     return res.json({ message: "User Already Exists" });
+//   }
+//   const hashpassword = await bcrypt.hash(password, 10);
+//   const newParticipant = new ParticipantModel({
+//     firstName,
+//     lastName,
+//     email,
+//     secondaryEmail,
+//     phoneNumber,
+//     selectedCountry,
+//     selectedState,
+//     selectedCity,
+//     password: hashpassword,
+//     role,
+//   });
+//   await newParticipant.save();
+//   const adminUser = await UserModel.findOne({ isAdmin: true });
+//   const notification = adminUser.notification;
+//   notification.push({
+//     type: "A new user registered",
+//     message: `${lastName} ${firstName} has applied for ${role} role`,
+//     onClickPath: `/admin/${role}`,
+//   });
+//   await UserModel.findByIdAndUpdate(adminUser._id, { notification });
+//   const token = new tokenModel({
+//     userId: newParticipant._id,
+//     token: crypto.randomBytes(16).toString("hex"),
+//   });
+//   await token.save();
+//   const link = `https://syndeo-backend.onrender.com/auth/confirmToken/${token.token}`;
+//   await sendMail(
+//     email,
+//     "Welcome to Syndèo!!! 🎉 🎉",
+//     `Hi, ${lastName} ${firstName}. Thank you for registering with us`,
+//     `<!DOCTYPE html>
+//     <html>
+//       <head>
+//         <style>
+//         body {
+//           font-family: Arial, sans-serif;
+//           height: 100%;
+//           width: 100%;
+//         }
+
+//         .container {
+//           max-width: 600px;
+//           margin: 0 auto;
+//           padding: 20px;
+//           background-color: #fff;
+//           border-radius: 5px;
+//           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+//         }
+
+//           .header {
+//             text-align: center;
+//             margin-bottom: 20px;
+//           }
+
+//           .header h1 {
+//             color: #333;
+//             font-size: 22px;
+//             font-weight: 600;
+//             text-align: center;
+//           }
+
+//           .content {
+//             margin-bottom: 30px;
+//           }
+
+//           .content p {
+//             margin: 0 0 10px;
+//             line-height: 1.5;
+//           }
+
+//           .content #para p {
+//             margin-top: 20px;
+//           }
+
+//           .content .button {
+//             text-align: center;
+//             display: flex;
+//             justify-content: center;
+//             align-items: center;
+//             margin-top: 20px;
+//             margin-bottom: 20px;
+//           }
+
+//           .content .button a {
+//             border-radius: 40px;
+//             padding-top: 16px;
+//             padding-bottom: 16px;
+//             padding-left: 100px;
+//             padding-right: 100px;
+//             background-color: #007ae1;
+//             text-decoration: none;
+//             color: white;
+//             font-weight: 600;
+//           }
+
+//           /* .footer {
+//             text-align: center;
+//           } */
+
+//           .footer p {
+//             color: #999;
+//             font-size: 14px;
+//             margin: 0;
+//             margin-top: 8px;
+//             margin-bottom: 8px;
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         <div class="container">
+//           <div class="header">
+//             <h1>Verify your email address to complete registration</h1>
+//           </div>
+//           <div class="content">
+//             <p id="para">Greetings, <span style="font-weight: bold">${firstName} ${lastName}!</span></p>
+//             <p>
+//               Thanks for your interest in joining Syndèo! To complete your
+//               registration, we need you to verify your email address.
+//             </p>
+//             <p>
+//               As part of our ongoing efforts to promote trust and protect your
+//               security, we now require you to obtain an Identity Verification which
+//               is done by verifying your email.
+//             </p>
+//             <div class="button">
+//               <a href="${link}">Verify Email</a>
+//             </div>
+//           </div>
+//           <p>Thanks for helping to keep Syndèo secure!</p>
+//           <div class="footer">
+//             <p>Best regards,</p>
+//             <p>Team Syndèo</p>
+//           </div>
+//         </div>
+//       </body>
+//     </html>
+//     `
+//   );
+//   res.send({ status: true, message: "Verify Your Email", email });
+// });
 
 router.post("/register", async (req, res) => {
   const {
@@ -375,28 +375,6 @@ router.post("/register", async (req, res) => {
   res.send({ status: true, message: "Verify Your Email", email });
 });
 
-router.get("/confirmToken/:token", async (req, res) => {
-  try {
-    const token = await tokenModel.findOne({ token: req.params.token });
-    const participant = await ParticipantModel.findOne({ _id: token.userId });
-    console.log(token);
-    await ParticipantModel.updateOne(
-      { _id: token.userId },
-      { $set: { verified: true } }
-    );
-    await tokenModel.findByIdAndDelete(token._id);
-    participant.notification.push({
-      type: "Email Verification Success",
-      message: "Greetings! Your email verification was successful",
-    });
-    await participant.save();
-    res.send("Email Verified Successfully");
-  } catch (error) {
-    console.log(error);
-    return res.json({ message: "Something Error Occurred", error });
-  }
-});
-
 router.get("/confirm/:token", async (req, res) => {
   try {
     const token = await tokenModel.findOne({ token: req.params.token });
@@ -416,24 +394,6 @@ router.get("/confirm/:token", async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.json({ message: "Something Error Occurred", error });
-  }
-});
-
-router.post("/userLogin", async (req, res) => {
-  const { email, password } = req.body;
-  const participant = await ParticipantModel.findOne({ email });
-  if (participant && participant.verified) {
-    const validPassword = await bcrypt.compare(password, participant.password);
-    if (!validPassword) {
-      return res.json({ message: "Password is Incorrect" });
-    }
-    const token = jwt.sign({ id: participant._id }, process.env.KEY, {
-      expiresIn: "1h",
-    });
-    res.cookie("token", token, { httpOnly: true, maxAge: 360000 });
-    return res.json({ status: true, message: "Logged In Successfully", token });
-  } else {
-    return res.json({ message: "User is not Registered" });
   }
 });
 
