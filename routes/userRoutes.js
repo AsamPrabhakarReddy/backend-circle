@@ -756,40 +756,42 @@ router.post("/getSingleUser", authMiddleware, async (req, res) => {
 
 router.post("/userBook", async (req, res) => {
   try {
-    const appointment = await appointmentModel.findOne({
-      organizerId: req.body.organizerId,
-      startTime: req.body.startTime,
-      endTime: req.body.endTime,
+    // const appointment = await appointmentModel.findOne({
+    //   organizerId: req.body.organizerId,
+    //   startTime: req.body.startTime,
+    //   endTime: req.body.endTime,
+    // });
+    // console.log(appointment);
+    // console.log(appointment.isBooked);
+    // await appointmentModel.updateMany(
+    //   { _id: appointmentId },
+    //   {
+    //     $set: {
+    //       isBooked: true,
+    //       userFirstName: req.body.userFirstName,
+    //       userLastName: req.body.userLastName,
+    //       userEmail: req.body.userEmail,
+    //       secondaryEmail: req.body.secondaryEmail,
+    //       subject: req.body.subject,
+    //       description: req.body.description,
+    //     },
+    //   }
+    // );
+    const appointment = await appointmentModel.findOneAndUpdate(
+      {
+        organizerId: req.body.organizerId,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+      },
+      req.body
+    );
+    console.log(appointment);
+    await appointment.save();
+    res.status(200).send({
+      status: true,
+      message: "Slot Booked Successfully",
+      data: appointment,
     });
-    appointmentId = appointment._id;
-    if (appointment.isBooked === true) {
-      res.status(500).send({
-        status: false,
-        error,
-        message: "Slot is already booked...",
-      });
-    } else {
-      await appointmentModel.updateMany(
-        { _id: appointmentId },
-        {
-          $set: {
-            isBooked: true,
-            userFirstName: req.body.userFirstName,
-            userLastName: req.body.userLastName,
-            userEmail: req.body.userEmail,
-            secondaryEmail: req.body.secondaryEmail,
-            subject: req.body.subject,
-            description: req.body.description,
-          },
-        }
-      );
-      await appointment.save();
-      res.status(200).send({
-        status: true,
-        message: "Slot Booked Successfully",
-        data: user,
-      });
-    }
   } catch (error) {
     console.log(error);
     res.status(500).send({
