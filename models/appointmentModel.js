@@ -2,53 +2,41 @@ import mongoose from "mongoose";
 
 const appointmentSchema = new mongoose.Schema(
   {
-    userId: {
+    organizerId: {
       type: String,
       required: true,
     },
-    doctorId: {
+    isBooked: {
+      type: Boolean,
+      default: false,
+    },
+    userFirstName: {
+      type: String,
+    },
+    userLastName: {
+      type: String,
+    },
+    userEmail: {
+      type: String,
+    },
+    organizerEmail: {
       type: String,
       required: true,
     },
-    bookedName: {
+    secondaryEmail: {
       type: String,
-      required: true,
     },
-    bookedEmail: {
+    subject: {
       type: String,
-      required: true,
     },
-    bookedCountry: {
+    description: {
       type: String,
-      required: true,
-    },
-    doctorEmail: {
-      type: String,
-      required: true,
-    },
-    doctorFirstName: {
-      type: String,
-      required: true,
-    },
-    doctorLastName: {
-      type: String,
-      required: true,
-    },
-    doctorCountry: {
-      type: String,
-      required: true,
-    },
-    doctorCity: {
-      type: String,
-      required: true,
     },
     startTime: {
       type: String,
-      required: true,
     },
     endTime: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
