@@ -630,7 +630,9 @@ router.post("/existingSchedules", authMiddleware, async (req, res) => {
 
 router.post("/shareSchedules", async (req, res) => {
   try {
-    const user = await appointmentModel.find({ userId: req.body.userId });
+    const user = await appointmentModel.find({
+      organizerId: req.body.organizerId,
+    });
     // console.log(user);
     res.send({
       status: true,
