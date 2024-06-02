@@ -754,33 +754,12 @@ router.post("/getSingleUser", authMiddleware, async (req, res) => {
 
 router.post("/book-appointment", authMiddleware, async (req, res) => {
   try {
-    const interviewer = await UserModel.findOne({ _id: req.body.doctorId });
-    const candidate = await UserModel.findOne({ _id: req.body.userId });
-    const doctorFirstName = req.body.doctorFirstName;
-    const doctorLastName = req.body.doctorLastName;
-    if (req.body.startTime === req.body.endTime) {
-      res.status(200).send({
-        status: false,
-        message: "Start and End Timings shouldn't be same",
-      });
-    }
+    const organizerId = req.body.organizerId;
+    const organizerEmail = req.body.organizerEmail;
     const startTime = req.body.startTime.toString();
     const endTime = req.body.endTime.toString();
-    const bookedName = req.body.bookedName;
-    const doctorEmail = req.body.doctorEmail;
-    const bookedEmail = req.body.bookedEmail;
-    candidate.notification.push({
-      type: "Appointment Booking Success",
-      message: `Your Appointment Booking with ${req.body.doctorFirstName} is Successful`,
-    });
-    await candidate.save();
     const newAppointment = new appointmentModel(req.body);
     await newAppointment.save();
-    interviewer.notification.push({
-      type: "New Appointment Request",
-      message: `You've got a new appointment request from ${req.body.bookedName}`,
-    });
-    await interviewer.save();
     const transporter = nodemailer.createTransport({
       host: "mail.clouddatanetworks.com",
       port: 465,
@@ -792,12 +771,12 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     });
     var mailOptions = {
       from: "noreply-syndeo@clouddatanetworks.com",
-      to: doctorEmail,
-      subject: "Your appointment booking was confirmed.",
+      to: organizerEmail,
+      subject: "Appointment Booking Successful",
       html: `<!DOCTYPE html>
       <html>
-      <head>
-        <style>
+        <head>
+          <style>
           body {
             font-family: Arial, sans-serif;
             height: 100%;
@@ -812,203 +791,94 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
           }
-    
-          .header {
-            text-align: center;
-            margin-bottom: 20px;
-          }
-    
-          .header h1 {
-            color: #333;
-            font-size: 22px;
-            font-weight: 600;
-            text-align: center;
-          }
-    
-          .content {
-            margin-bottom: 30px;
-          }
-    
-          .content p {
-            margin: 0 0 10px;
-            line-height: 1.5;
-          }
-    
-          .content #para p {
-            margin-top: 20px;
-          }
-    
-          .content .button {
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-          }
-    
-          .content .button h2 {
-            border-radius: 40px;
-            padding-top: 16px;
-            padding-bottom: 16px;
-            padding-left: 100px;
-            padding-right: 100px;
-            background-color: #007ae1;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-          }
-    
-          /* .footer {
+      
+            .header {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+      
+            .header h1 {
+              color: #333;
+              font-size: 22px;
+              font-weight: 600;
+              text-align: center;
+            }
+      
+            .content {
+              margin-bottom: 30px;
+            }
+      
+            .content p {
+              margin: 0 0 10px;
+              line-height: 1.5;
+            }
+      
+            .content #para p {
+              margin-top: 20px;
+            }
+      
+            .content .button {
+              text-align: center;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin-top: 20px;
+              margin-bottom: 20px;
+            }
+      
+            .content .button a {
+              border-radius: 40px;
+              padding-top: 16px;
+              padding-bottom: 16px;
+              padding-left: 100px;
+              padding-right: 100px;
+              background-color: #007ae1;
+              text-decoration: none;
+              color: white;
+              font-weight: 600;
+            }
+      
+            /* .footer {
               text-align: center;
             } */
-    
-          .footer p {
-            color: #999;
-            font-size: 14px;
-            margin: 0;
-            margin-top: 8px;
-            margin-bottom: 8px;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>Your appointment booking was successful</h1>
-          </div>
-          <div class="content">
-            <p id="para">Greetings, ${doctorFirstName} ${doctorLastName}!</p>
-            <p>
-              Thanks for your interest in using Syndèo! Your appointment booking
-              with <span style="font-weight: bold">${bookedName}</span> was
-              succesful. Below are the following details:
-            </p>
-            <p>Your Start Time : ${startTime}</p>
-            <p>Your End Time : ${endTime}</p>
-            <div class="button">
-              <h2>Thank You</h2>
+      
+            .footer p {
+              color: #999;
+              font-size: 14px;
+              margin: 0;
+              margin-top: 8px;
+              margin-bottom: 8px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Your appointment booking was successful</h1>
+            </div>
+            <div class="content">
+              <p id="para">Greetings, !</p>
+              <p>
+                Thanks for your interest in using Syndeo! Your appointment booking with was succesful. 
+              </p>
+              <p>
+                Your Start Time : ${startTime}
+              </p>
+              <p>
+                Your End Time : ${endTime}
+              </p>
+              <div class="button">
+                <a>Thank You</a>
+              </div>
+            </div>
+            <p>Thank you for helping to keep Syndeo secure!</p>
+            <div class="footer">
+              <p>Best regards,</p>
+              <p>Team Syndeo</p>
             </div>
           </div>
-          <p>Thank you for helping to keep Syndèo secure!</p>
-          <div class="footer">
-            <p>Best regards,</p>
-            <p>Team Syndèo</p>
-          </div>
-        </div>
-      </body>
-    </html>
-      `,
-    };
-
-    var mailSending = {
-      from: "kalavaguntapurnesh@gmail.com",
-      to: bookedEmail,
-      subject: "Your appointment booking was confirmed.",
-      html: `<!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            height: 100%;
-            width: 100%;
-          }
-    
-          .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          }
-    
-          .header {
-            text-align: center;
-            margin-bottom: 20px;
-          }
-    
-          .header h1 {
-            color: #333;
-            font-size: 22px;
-            font-weight: 600;
-            text-align: center;
-          }
-    
-          .content {
-            margin-bottom: 30px;
-          }
-    
-          .content p {
-            margin: 0 0 10px;
-            line-height: 1.5;
-          }
-    
-          .content #para p {
-            margin-top: 20px;
-          }
-    
-          .content .button {
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-          }
-    
-          .content .button h2 {
-            border-radius: 40px;
-            padding-top: 16px;
-            padding-bottom: 16px;
-            padding-left: 100px;
-            padding-right: 100px;
-            background-color: #007ae1;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-          }
-    
-          /* .footer {
-              text-align: center;
-            } */
-    
-          .footer p {
-            color: #999;
-            font-size: 14px;
-            margin: 0;
-            margin-top: 8px;
-            margin-bottom: 8px;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>Your appointment booking was successful</h1>
-          </div>
-          <div class="content">
-            <p id="para">Greetings, ${bookedName}!!!</p>
-            <p>
-              Thanks for your interest in using Syndèo! Your appointment booking
-              with <span style="font-weight: bold">${doctorFirstName} ${doctorLastName}</span> was
-              succesful. Below are the following details:
-            </p>
-            <p>Your Start Time : ${startTime}</p>
-            <p>Your End Time : ${endTime}</p>
-            <div class="button">
-              <h2>Thank You</h2>
-            </div>
-          </div>
-          <p>Thank you for helping to keep Syndèo secure!</p>
-          <div class="footer">
-            <p>Best regards,</p>
-            <p>Team Syndèo</p>
-          </div>
-        </div>
-      </body>
-    </html>
+        </body>
+      </html>
       `,
     };
 
@@ -1019,13 +889,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
         return res.json({ status: true, message: "Check Your Email" });
       }
     });
-    transporter.sendMail(mailSending, function (error, info) {
-      if (error) {
-        return res.json({ message: "Error in sending Mail" });
-      } else {
-        return res.json({ status: true, message: "Check Your Email" });
-      }
-    });
+
     res.status(200).send({
       status: true,
       message: "Appointment Booked Successfully",
