@@ -12,12 +12,15 @@ const appointmentSchema = new mongoose.Schema(
     },
     userFirstName: {
       type: String,
+      default: "",
     },
     userLastName: {
       type: String,
+      default: "",
     },
     userEmail: {
       type: String,
+      default: "",
     },
     organizerEmail: {
       type: String,
@@ -25,12 +28,15 @@ const appointmentSchema = new mongoose.Schema(
     },
     secondaryEmail: {
       type: String,
+      default: "",
     },
     subject: {
       type: String,
+      default: "",
     },
     description: {
       type: String,
+      default: "",
     },
     startTime: {
       type: String,
