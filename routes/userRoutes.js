@@ -632,6 +632,7 @@ router.post("/shareSchedules", async (req, res) => {
   try {
     const user = await appointmentModel.find({
       organizerId: req.body.organizerId,
+      isBooked: false,
     });
     // console.log(user);
     res.send({
