@@ -762,6 +762,8 @@ router.post("/userBook", async (req, res) => {
     const userEmail = req.body.userEmail;
     const startTime = req.body.startTime;
     const endTime = req.body.endTime;
+    const userFirstName = req.body.userFirstName;
+    const userLastName = req.body.userLastName;
     const appointment = await appointmentModel.findOneAndUpdate(
       {
         organizerId: req.body.organizerId,
@@ -870,7 +872,7 @@ router.post("/userBook", async (req, res) => {
               <h1>Your appointment booking was successful</h1>
             </div>
             <div class="content">
-              <p id="para">Greetings, !</p>
+              <p id="para">Greetings, ${userFirstName} ${userLastName}!</p>
               <p>
                 Thanks for your interest in using Syndeo! Your appointment booking with was succesful. 
               </p>
