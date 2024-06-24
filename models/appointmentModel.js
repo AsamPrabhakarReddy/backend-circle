@@ -39,10 +39,10 @@ const appointmentSchema = new mongoose.Schema(
       default: "",
     },
     startTime: {
-      type: Date,
+      type: String,
     },
     endTime: {
-      type: Date,
+      type: String,
     },
   },
   { timestamps: true }
