@@ -44,6 +44,9 @@ const appointmentSchema = new mongoose.Schema(
     endTime: {
       type: String,
     },
+    slots: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );

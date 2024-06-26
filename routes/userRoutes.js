@@ -923,6 +923,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     const organizerEmail = req.body.organizerEmail;
     const startTime = req.body.startTime.toString();
     const endTime = req.body.endTime.toString();
+    const slots = req.body.slots
     const newAppointment = new appointmentModel(req.body);
     await newAppointment.save();
     const transporter = nodemailer.createTransport({
