@@ -15,6 +15,7 @@ import { tokenModel } from "../models/Token.js";
 import { type } from "os";
 import { time } from "console";
 import { ParticipantModel } from "../models/participantModel.js";
+import { slotModel } from "../models/slots.js";
 
 //router object
 const router = express.Router();
@@ -757,6 +758,59 @@ router.post("/getSingleUser", authMiddleware, async (req, res) => {
   }
 });
 
+router.post("/time-slots", authMiddleware, async (req, res) => {
+  try {
+    const newDate = req.body.newDate.toString();
+    const timeSlots = req.body.timeSlots;
+    const organizerId = req.body.organizerId;
+    const query = {
+      newDate: { $eq: newDate },
+      organizerId: { $eq: organizerId },
+    };
+    const count = await slotModel.countDocuments(query);
+    if (count) {
+      const newData = await slotModel.findOneAndUpdate(
+        {
+          newDate: { $eq: newDate },
+        },
+        {
+          $push: { timeSlots: timeSlots },
+        }
+      );
+    } else {
+      const data = new slotModel(req.body);
+      await data.save();
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.post("/getTimeSlots", authMiddleware, async (req, res) => {
+  try {
+    const newDate = req.body.newDate.toString();
+    const query = {
+      newDate: { $eq: newDate },
+      organizerId: { $eq: organizerId },
+    };
+    const data = await slotModel.find(query).select({
+      newDate: 0,
+      _id: 0,
+      __v: 0,
+      organizerId: 0,
+    });
+    res.json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      status: false,
+      error,
+      message: "Error in fetching time slots on that date...",
+    });
+  }
+});
+
 router.post("/userBook", async (req, res) => {
   try {
     const userEmail = req.body.userEmail;
@@ -923,7 +977,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     const organizerEmail = req.body.organizerEmail;
     const startTime = req.body.startTime.toString();
     const endTime = req.body.endTime.toString();
-    const slots = req.body.slots
+    const slots = req.body.slots;
     const newAppointment = new appointmentModel(req.body);
     await newAppointment.save();
     const transporter = nodemailer.createTransport({
@@ -1116,29 +1170,5 @@ router.post("/booking-availability", authMiddleware, async (req, res) => {
     });
   }
 });
-
-// router.post("/uploadProfile", (authMiddleware, upload), async (req, res) => {
-//   try {
-//     const customer = await UserModel.findOneAndUpdate(
-//       {
-//         _id: req.body.userId,
-//       },
-//       req.body
-//     );
-//     console.log(customer);
-//     res.send({
-//       status: true,
-//       message: "Profile Image was updated successfully",
-//       data: customer,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.json({
-//       status: false,
-//       message: "Issue in updating profile",
-//       error,
-//     });
-//   }
-// });
 
 export { router as UserRouter };

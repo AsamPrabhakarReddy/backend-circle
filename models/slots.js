@@ -4,14 +4,11 @@ const slotSchema = new mongoose.Schema({
   organizerId: {
     type: String,
   },
-  slotBooked: {
-    type: Boolean,
-  },
-  slotStartTime: {
+  newDate: {
     type: String,
   },
-  slotEndTime: {
-    type: String,
+  timeSlots: {
+    type: [String],
   },
 });
 
