@@ -20,6 +20,18 @@ import { slotModel } from "../models/slots.js";
 //router object
 const router = express.Router();
 
+
+
+router.get("/user", async (req, res) => {
+  try {
+    res.send("syndeo backend running successfully on aws server");
+  } catch (error) {
+    console.log(error);
+    return res.json({ message: "Something Error Occurred", error });
+  }
+});
+
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "../public/images");
