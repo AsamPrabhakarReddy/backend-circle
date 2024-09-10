@@ -75,9 +75,9 @@ e"
             ssh -o StrictHostKeyChecking=no ubuntu@13.126.13.37 \<< 'EOF'
               cd /var/www/html/your-app
               git pull origin main
-              npm ci
+              ls -la
+              cat package.json
               npm run
-              pm2 restart all
             EOF
 
 workflows:
