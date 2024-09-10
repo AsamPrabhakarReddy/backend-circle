@@ -76,6 +76,7 @@ e"
               cd /var/www/html/your-app
               git pull origin main
               npm ci
+              npm run build
               npm start
               pm2 restart all
             EOF
