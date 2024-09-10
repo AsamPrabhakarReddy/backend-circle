@@ -78,7 +78,7 @@ yDKayayu6z3tAAAAG2FzYW1wcmFiaGFrYXJiYWxhQGdtYWlsLmNvbQECAwQFBgc=
               npm install
               npm run build
               pm2 restart all
-EOF
+            EOF
 
 workflows:
   version: 2
