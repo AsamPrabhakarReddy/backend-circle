@@ -1,0 +1,92 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Build the App
+          command: npm run build
+      - run:
+          name: Install AWS CLI
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y awscli
+      - add_ssh_keys:
+          fingerprints:
+            - "-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----
+"  
+      - run:
+          name: Deploy to EC2
+          command: |
+            ssh -o StrictHostKeyChecking=no ubuntu@13.126.13.37 << 'EOF'
+           
+              cd /var/www/html/your-app
+
+              git pull origin main
+
+              npm install
+
+              npm run build
+
+              pm2 restart all
+            EOF
+          
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
